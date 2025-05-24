@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
+// import { Dropdown, Collapse, initMDB } from "";
 
 @Component({
   selector: 'app-navbar',
@@ -11,6 +12,10 @@ import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent {
 
+
+export class NavbarComponent {
+  // ngAfterViewInit(): void {
+  //   initMDB({ Dropdown, Collapse });
+  // }
 }
