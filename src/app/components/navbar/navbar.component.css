@@ -6,3 +6,7 @@
 .navstyle {
     background-color: #357bc0;
 }
+
+.bg-body-tertiary {
+    --bs-bg-opacity: 0;
+}
