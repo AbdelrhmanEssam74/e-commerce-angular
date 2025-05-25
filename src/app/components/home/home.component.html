@@ -4,26 +4,37 @@
 
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
         <!-- Product 1 -->
-        <div class="card h-100 rounded-5 me-4 " style="border: 1px solid #82C341; width: 23%;">
-            <div class="position-relative mt-3"> <img
-                    src="https://images.unsplash.com/photo-1720048171731-15b3d9d5473f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MXwxfHNlYXJjaHwxfHxzbWFydG,bobtail|Gpu_ram|phone%3BfHx8fDE3MjEzMDU4NTZ8MA&ixlib=rb-4.0.3&q=80&w=1080"
-                    class="card-img-top rounded-4 mt-2" alt="Product 2">
-                <span class="badge bg-danger position-absolute top-0 start-0 mt-4 ms-3 w-25">50%</span>
+
+        @for(product of products; track $index){
+
+        <div class="card h-100 rounded-5 me-4 h-50" style="border: 1px solid #82C341; width: 23%;">
+            <div class="position-relative mt-3"> <img [src]="product.thumbnail" class="card-img-top rounded-4 mt-2"
+                    alt="Product 2">
+
+                <span [ngStyle]="{'background-color': (product.discountPercentage/100) >0.50 ? 'brown'  :  
+                                                      (product.discountPercentage/100) >0.10 ? 'orange':
+                                                      'green'  }"
+                    class="badge position-absolute top-0 start-0 mt-4 ms-3 w-25">{{product.discountPercentage/100|percent}}
+                </span>
             </div>
             <div class="card-body">
-                <h5 class="card-title fw-bolder">REUSABLE MASK</h5>
-                <span class="h5 mb-0 fw-semibold " style="color: rgb(56, 56, 56);">$24.99</span>
+                <h5 class="card-title fw-bolder">{{product.title.slice(0,20)}}..</h5>
+                <span class="h5 mb-0 fw-semibold " style="color: rgb(56, 56, 56);">{{product.price |currency}}</span>
                 <p class="card-text"></p>
                 <div class="d-flex justify-content-between align-items-center">
-                    <button class="btn btn-outline-success w-75"><i class="fa-solid fa-cart-shopping "></i> Add to
-                        Cart</button>
-                    <i class="fa-regular fa-heart fs-3 text-success " style="cursor: pointer;"></i>
+                    <button class="btn btn-outline-success w-75 "><fa-icon [icon]="faCartShopping"
+                            class="fs-5 pe-2"></fa-icon>
+
+                        Add to Cart</button>
+                    <fa-icon [icon]="faHeart" class="fs-4 text-success" style="cursor: pointer;"></fa-icon>
                 </div>
             </div>
         </div>
+        }
 
+        <!-- 
 
-        <!-- Product 2 -->
+        Product 2
         <div class="card h-100 rounded-5 me-4  " style="border: 1px solid #82C341; width: 23%;">
             <div class="position-relative mt-3"> <img
                     src="https://images.unsplash.com/photo-1720048171731-15b3d9d5473f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MXwxfHNlYXJjaHwxfHxzbWFydG,bobtail|Gpu_ram|phone%3BfHx8fDE3MjEzMDU4NTZ8MA&ixlib=rb-4.0.3&q=80&w=1080"
@@ -42,7 +53,7 @@
             </div>
         </div>
 
-        <!-- Product 3 -->
+        Product 3
         <div class="card h-100 rounded-5 me-4  " style="border: 1px solid #82C341; width: 23%;">
             <div class="position-relative mt-3"> <img
                     src="https://images.unsplash.com/photo-1720048171731-15b3d9d5473f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MXwxfHNlYXJjaHwxfHxzbWFydG,bobtail|Gpu_ram|phone%3BfHx8fDE3MjEzMDU4NTZ8MA&ixlib=rb-4.0.3&q=80&w=1080"
@@ -61,7 +72,7 @@
             </div>
         </div>
 
-        <!-- Product 4 -->
+        Product 4
         <div class="card h-100 rounded-5 me-2 " style="border: 1px solid #82C341; width: 23%;">
             <div class="position-relative mt-3"> <img
                     src="https://images.unsplash.com/photo-1720048171731-15b3d9d5473f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MXwxfHNlYXJjaHwxfHxzbWFydG,bobtail|Gpu_ram|phone%3BfHx8fDE3MjEzMDU4NTZ8MA&ixlib=rb-4.0.3&q=80&w=1080"
@@ -78,7 +89,7 @@
                     <i class="fa-regular fa-heart fs-3 text-success " style="cursor: pointer;"></i>
                 </div>
             </div>
-        </div>
+        </div> -->
 
 
     </div>
