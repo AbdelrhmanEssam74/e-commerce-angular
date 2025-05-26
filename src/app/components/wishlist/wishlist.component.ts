@@ -1,16 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { WishlistService } from '../../services/wishlist.service';
+import { CartService } from '../../services/cart.service';
 import { Router } from '@angular/router';
-
-interface Product {
-  id: number;
-  name: string;
-  image: string;
-  rating: number;
-  reviewCount: string;
-  description: string;
-  price: number;
-  originalPrice?: number;
-}
+import { Product } from '../../interface/product';
+import { WishlistItem } from '../../interface/wishlist-item';
 
 @Component({
   selector: 'app-wishlist',
@@ -18,77 +11,104 @@ interface Product {
   styleUrls: ['./wishlist.component.css']
 })
 export class WishlistComponent implements OnInit {
-  
-  wishlistItems: Product[] = [
-    {
-      id: 1,
-      name: 'Wireless Headphones',
-      image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=400&fit=crop',
-      rating: 4,
-      reviewCount: '2,150',
-      description: 'Premium wireless headphones with noise cancellation and superior sound quality.',
-      price: 199.99,
-      originalPrice: 249.99
-    },
-    {
-      id: 2,
-      name: 'Smart Watch',
-      image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300&h=400&fit=crop',
-      rating: 5,
-      reviewCount: '1,890',
-      description: 'Advanced fitness tracking and smart notifications on your wrist.',
-      price: 299.99
-    },
-    {
-      id: 3,
-      name: 'Laptop Backpack',
-      image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&h=400&fit=crop',
-      rating: 4,
-      reviewCount: '856',
-      description: 'Durable and stylish backpack perfect for work and travel.',
-      price: 79.99,
-      originalPrice: 99.99
-    },
-    {
-      id: 4,
-      name: 'Bluetooth Speaker',
-      image: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=300&h=400&fit=crop',
-      rating: 4,
-      reviewCount: '1,245',
-      description: 'Portable speaker with crystal clear sound and long battery life.',
-      price: 89.99
-    }
-  ];
+  wishlistItems: WishlistItem[] = [];
+  isLoading = true;
+  error: string | null = null;
 
-  constructor(private router: Router) { }
+  constructor(
+    private wishlistService: WishlistService,
+    private cartService: CartService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    // Load data from service if needed
+    this.loadWishlistItems();
   }
 
-  getStars(rating: number): number[] {
-    return Array(Math.floor(rating)).fill(0);
+  loadWishlistItems(): void {
+    this.isLoading = true;
+    this.error = null;
+    
+    this.wishlistService.getWishlistItems(1).subscribe({
+      next: (items) => {
+        this.wishlistItems = items;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Error loading wishlist:', err);
+        this.error = 'Failed to load wishlist items. Please try again.';
+        this.isLoading = false;
+      }
+    });
   }
 
-  getEmptyStars(rating: number): number[] {
-    return Array(5 - Math.floor(rating)).fill(0);
+  removeFromWishlist(itemId: number): void {
+    this.wishlistService.removeFromWishlist(itemId).subscribe({
+      next: () => {
+        this.wishlistItems = this.wishlistItems.filter(item => item.id !== itemId);
+        // Optional: Show success message
+      },
+      error: (err) => {
+        console.error('Error removing from wishlist:', err);
+        // Optional: Show error message to user
+      }
+    });
   }
 
-  addToCart(product: Product): void {
-    console.log('Adding to cart:', product);
-    // Here you would typically call a cart service
-    alert(`${product.name} has been added to your cart`);
-  }
-
-  removeFromWishlist(productId: number): void {
-    this.wishlistItems = this.wishlistItems.filter(item => item.id !== productId);
-  }
-
-  goToHome(): void {
-    this.router.navigate(['/']);
+  addToCart(item: WishlistItem): void {
+    this.cartService.addToCart(item.product.id).subscribe({
+      next: () => {
+        // Remove from wishlist after successfully adding to cart
+        this.removeFromWishlist(item.id);
+        // Optional: Show success message
+      },
+      error: (err) => {
+        console.error('Error adding to cart:', err);
+        // Optional: Show error message to user
+      }
+    });
   }
 
   goToProductDetails(productId: number): void {
     this.router.navigate(['/product', productId]);
+  }
+
+  goToHome(): void {
+    this.router.navigate(['/home']);
+  }
+
+  getStars(rating: string): number[] {
+    const numericRating = parseFloat(rating) || 0;
+    return Array(Math.floor(numericRating)).fill(0);
+  }
+
+  getEmptyStars(rating: string): number[] {
+    const numericRating = parseFloat(rating) || 0;
+    return Array(5 - Math.floor(numericRating)).fill(0);
+  }
+
+  // Format price display
+  formatPrice(price: string | number): string {
+    const numPrice = typeof price === 'string' ? parseFloat(price) : price;
+    return numPrice.toFixed(2);
+  }
+
+  // Get product image - handles both images array and single image
+  getProductImage(product: any): string {
+    // إذا كان هناك مصفوفة صور، استخدم الصورة الأولى
+    if (product.images && Array.isArray(product.images) && product.images.length > 0) {
+      return product.images[0];
+    }
+    // إذا كان هناك صورة واحدة
+    if (product.image) {
+      return product.image;
+    }
+    // صورة افتراضية إذا لم توجد صور
+    return 'https://placehold.co/400x600?text=No+Image';
+  }
+
+  // Retry loading if there was an error
+  retryLoading(): void {
+    this.loadWishlistItems();
   }
 }

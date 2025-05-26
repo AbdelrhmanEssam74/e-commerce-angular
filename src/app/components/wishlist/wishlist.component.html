@@ -3,42 +3,74 @@
   <div class="wishlist-container p-4">
     <h2 class="wishlist-title mb-4">Wish list</h2>
     
-    @if (wishlistItems.length > 0) {
+    <!-- Loading State -->
+    @if (isLoading) {
+      <div class="loading-container">
+        <div class="row">
+          @for (skeleton of [1,2,3,4]; track $index) {
+            <div class="col-md-6 mb-4">
+              <div class="skeleton-card d-flex">
+                <div class="skeleton-image"></div>
+                <div class="skeleton-details flex-grow-1 p-3">
+                  <div class="skeleton-line title"></div>
+                  <div class="skeleton-line rating"></div>
+                  <div class="skeleton-line description"></div>
+                  <div class="skeleton-line description short"></div>
+                  <div class="skeleton-line price"></div>
+                  <div class="skeleton-controls"></div>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    } @else if (error) {
+      <!-- Error State -->
+      <div class="error-state text-center py-5">
+        <div class="error-icon mb-3">
+          <i class="fas fa-exclamation-triangle text-warning" style="font-size: 3rem;"></i>
+        </div>
+        <h4 class="error-title mb-3">{{ error }}</h4>
+        <button class="btn btn-primary" (click)="retryLoading()">
+          <i class="fas fa-redo me-2"></i>Try Again
+        </button>
+      </div>
+    } @else if (wishlistItems.length > 0) {
       <div class="row">
-        @for (product of wishlistItems; track product.id) {
+        @for (item of wishlistItems; track item.id) {
           <div class="col-md-6 mb-4">
             <div class="product-card d-flex">
-              <div class="product-image" (click)="goToProductDetails(product.id)">
-                <img [src]="product.image" [alt]="product.name" class="img-fluid">
+              <div class="product-image" (click)="goToProductDetails(item.product.id)">
+                <img [src]="getProductImage(item.product)" [alt]="item.product.name" class="img-fluid">
               </div>
               <div class="product-details flex-grow-1 p-3">
                 <div class="d-flex justify-content-between align-items-start">
-                  <h5 class="product-name" (click)="goToProductDetails(product.id)">{{ product.name }}</h5>
-                  <a class="favorite-btn active" (click)="removeFromWishlist(product.id)">
+                  <h5 class="product-name" (click)="goToProductDetails(item.product.id)">{{ item.product.name }}</h5>
+                  <a class="favorite-btn active" (click)="removeFromWishlist(item.id)">
                     <i class="fas fa-heart text-warning heart-icon"></i>
                   </a>
                 </div>
                 <div class="rating mb-2">
-                  @for (star of getStars(product.rating); track $index) {
+                  @for (star of getStars(item.product.average_rating); track $index) {
                     <i class="fas fa-star"></i>
                   }
-                  @for (star of getEmptyStars(product.rating); track $index) {
+                  @for (star of getEmptyStars(item.product.average_rating); track $index) {
                     <i class="far fa-star"></i>
                   }
-                  <span class="rating-count ms-2">{{ product.reviewCount }}</span>
+                  <span class="rating-count ms-2">{{ item.product.total_reviews }} reviews</span>
                 </div>
-                <p class="product-description">{{ product.description }}</p>
+                <p class="product-description">{{ item.product.description }}</p>
                 <div class="product-price">
-                  <span class="current-price">${{ product.price }}</span>
-                  @if (product.originalPrice) {
-                    <span class="original-price">${{ product.originalPrice }}</span>
+                  <span class="current-price">${{ formatPrice(item.product.price) }}</span>
+                  @if (item.product.originalPrice) {
+                    <span class="original-price">${{ formatPrice(item.product.originalPrice) }}</span>
                   }
                 </div>
                 <div class="d-flex gap-2">
-                  <button class="btn btn-outline-secondary btn-sm mt-2" (click)="removeFromWishlist(product.id)">
+                  <button class="btn btn-outline-secondary btn-sm mt-2" (click)="removeFromWishlist(item.id)">
                     <i class="fa-solid fa-xmark"></i> Remove
                   </button>
-                  <button class="btn btn-primary btn-sm mt-2" (click)="addToCart(product)">
+                  <button class="btn btn-primary btn-sm mt-2" (click)="addToCart(item)">
                     <i class="fas fa-shopping-cart me-2"></i>Add to Cart
                   </button>
                 </div>
@@ -53,8 +85,9 @@
           <i class="fas fa-heart-broken"></i>
         </div>
         <h4 class="empty-title">Your wishlist is empty</h4>
+        <p class="empty-subtitle mb-4">Save items you love for later</p>
         <button class="btn btn-primary btn-back" (click)="goToHome()">
-          Continue Shopping
+          <i class="fas fa-arrow-left me-2"></i>Continue Shopping
         </button>
       </div>
     }

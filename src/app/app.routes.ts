@@ -5,7 +5,8 @@ import { WishlistComponent } from './components/wishlist/wishlist.component';
 
 export const routes: Routes = [
   {path:'' , component:HomeComponent},
-  {path:'\cart' , component:CartComponent},
-  {path:'\wishlist' , component:WishlistComponent},
-  
+  {path:'home', component: HomeComponent, title: 'Home' },
+  {path:'cart' , component:CartComponent, title: 'CartItem'},
+  {path:'wishlist' , component:WishlistComponent, title: 'WishList'},
+
 ];

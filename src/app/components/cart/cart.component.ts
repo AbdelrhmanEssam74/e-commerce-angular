@@ -1,17 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { CartService } from '../../services/cart.service';
 import { Router } from '@angular/router';
-
-interface CartItem {
-  id: number;
-  name: string;
-  image: string;
-  rating: number;
-  reviewCount: string;
-  description: string;
-  price: number;
-  originalPrice?: number;
-  quantity: number;
-}
+import { CartItem } from '../../interface/cart-item';
 
 @Component({
   selector: 'app-cart',
@@ -19,80 +9,88 @@ interface CartItem {
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent implements OnInit {
-  cartItems: CartItem[] = [
-    {
-      id: 1,
-      name: 'Wireless Headphones',
-      image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=400&fit=crop',
-      rating: 4,
-      reviewCount: '2,150',
-      description: 'Premium wireless headphones with noise cancellation and superior sound quality.',
-      price: 199.99,
-      originalPrice: 249.99,
-      quantity: 1
-    },
-    {
-      id: 2,
-      name: 'Smart Watch',
-      image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300&h=400&fit=crop',
-      rating: 5,
-      reviewCount: '1,890',
-      description: 'Advanced fitness tracking and smart notifications on your wrist.',
-      price: 299.99,
-      quantity: 2
-    }
-  ];
+  cartItems: CartItem[] = [];
+  isLoading = true;
+  shippingCost = 5.99;
+  error: string | null = null;
 
-  shippingCost: number = 15.00;
-  taxRate: number = 0.08;
-
-  constructor(private router: Router) { }
+  constructor(
+    private cartService: CartService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    // Load cart items from service if needed
+    this.loadCartItems();
   }
 
-  getStars(rating: number): number[] {
-    return Array(Math.floor(rating)).fill(0);
+  loadCartItems(): void {
+    this.isLoading = true;
+    this.error = null;
+    
+    this.cartService.getCartItems().subscribe({
+      next: (items) => {
+        this.cartItems = items;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Error loading cart:', err);
+        this.error = 'Failed to load cart items. Please try again.';
+        this.isLoading = false;
+      }
+    });
   }
 
-  getEmptyStars(rating: number): number[] {
-    return Array(5 - Math.floor(rating)).fill(0);
+  removeFromCart(itemId: number): void {
+    this.cartService.removeFromCart(itemId).subscribe({
+      next: () => {
+        this.cartItems = this.cartItems.filter(item => item.id !== itemId);
+        // Optional: Show success message
+      },
+      error: (err) => {
+        console.error('Error removing from cart:', err);
+        // Optional: Show error message to user
+      }
+    });
   }
 
-  removeFromCart(productId: number): void {
-    this.cartItems = this.cartItems.filter(item => item.id !== productId);
+  increaseQuantity(item: CartItem): void {
+    const newQuantity = item.quantity + 1;
+    this.updateQuantity(item, newQuantity);
   }
 
-  increaseQuantity(productId: number): void {
-    const item = this.cartItems.find(item => item.id === productId);
-    if (item) {
-      item.quantity++;
+  decreaseQuantity(item: CartItem): void {
+    if (item.quantity > 1) {
+      const newQuantity = item.quantity - 1;
+      this.updateQuantity(item, newQuantity);
     }
   }
 
-  decreaseQuantity(productId: number): void {
-    const item = this.cartItems.find(item => item.id === productId);
-    if (item && item.quantity > 1) {
-      item.quantity--;
-    }
-  }
-
-  getQuantity(productId: number): number {
-    const item = this.cartItems.find(item => item.id === productId);
-    return item ? item.quantity : 0;
+  private updateQuantity(item: CartItem, newQuantity: number): void {
+    this.cartService.updateCartItem(item.id, newQuantity).subscribe({
+      next: () => {
+        item.quantity = newQuantity;
+      },
+      error: (err) => {
+        console.error('Error updating quantity:', err);
+        // Optional: Show error message to user
+      }
+    });
   }
 
   getSubtotal(): number {
-    return this.cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const subtotal = this.cartItems.reduce((sum, item) => 
+      sum + (parseFloat(item.product.price) * item.quantity), 0);
+    return Math.round(subtotal * 100) / 100;
   }
 
   getTax(): number {
-    return parseFloat((this.getSubtotal() * this.taxRate).toFixed(2));
+    const tax = this.getSubtotal() * 0.1; // 10% tax
+    return Math.round(tax * 100) / 100;
   }
 
   getTotal(): number {
-    return parseFloat((this.getSubtotal() + this.shippingCost + this.getTax()).toFixed(2));
+    const total = this.getSubtotal() + this.shippingCost + this.getTax();
+    return Math.round(total * 100) / 100;
   }
 
   getTotalItems(): number {
@@ -100,13 +98,14 @@ export class CartComponent implements OnInit {
   }
 
   checkout(): void {
-    console.log('Proceeding to checkout');
-    // Here you would typically navigate to checkout page
-    alert('Proceeding to checkout');
+    if (this.cartItems.length === 0) {
+      return;
+    }
+    this.router.navigate(['/checkout']);
   }
 
   continueShopping(): void {
-    this.router.navigate(['/']);
+    this.router.navigate(['/home']);
   }
 
   goToProductDetails(productId: number): void {
@@ -114,6 +113,41 @@ export class CartComponent implements OnInit {
   }
 
   goToHome(): void {
-    this.router.navigate(['/']);
+    this.router.navigate(['/home']);
+  }
+
+  getStars(rating: string): number[] {
+    const numericRating = parseFloat(rating) || 0;
+    return Array(Math.floor(numericRating)).fill(0);
+  }
+
+  getEmptyStars(rating: string): number[] {
+    const numericRating = parseFloat(rating) || 0;
+    return Array(5 - Math.floor(numericRating)).fill(0);
+  }
+
+  // Format price display
+  formatPrice(price: string | number): string {
+    const numPrice = typeof price === 'string' ? parseFloat(price) : price;
+    return numPrice.toFixed(2);
+  }
+
+  // Get product image - handles both images array and single image - FIXED
+  getProductImage(product: any): string {
+    // إذا كان هناك مصفوفة صور، استخدم الصورة الأولى
+    if (product.images && Array.isArray(product.images) && product.images.length > 0) {
+      return product.images[0];
+    }
+    // إذا كان هناك صورة واحدة
+    if (product.image) {
+      return product.image;
+    }
+    // صورة افتراضية إذا لم توجد صور
+    return 'https://placehold.co/400x600?text=No+Image';
+  }
+
+  // Retry loading if there was an error
+  retryLoading(): void {
+    this.loadCartItems();
   }
 }
