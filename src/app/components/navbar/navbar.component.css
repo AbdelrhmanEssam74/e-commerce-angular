@@ -1,6 +1,8 @@
 .active-link {
-    font-weight: 700;
-    color: black;
+    font-weight: 600;
+    color: rgb(106, 197, 111) !important;
+    background-color: beige;
+    border-radius: 5px;
 }
 
 .navstyle {
