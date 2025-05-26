@@ -44,11 +44,9 @@ export class CartComponent implements OnInit {
     this.cartService.removeFromCart(itemId).subscribe({
       next: () => {
         this.cartItems = this.cartItems.filter(item => item.id !== itemId);
-        // Optional: Show success message
       },
       error: (err) => {
         console.error('Error removing from cart:', err);
-        // Optional: Show error message to user
       }
     });
   }
@@ -72,7 +70,6 @@ export class CartComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error updating quantity:', err);
-        // Optional: Show error message to user
       }
     });
   }
@@ -126,27 +123,21 @@ export class CartComponent implements OnInit {
     return Array(5 - Math.floor(numericRating)).fill(0);
   }
 
-  // Format price display
   formatPrice(price: string | number): string {
     const numPrice = typeof price === 'string' ? parseFloat(price) : price;
     return numPrice.toFixed(2);
   }
 
-  // Get product image - handles both images array and single image - FIXED
   getProductImage(product: any): string {
-    // إذا كان هناك مصفوفة صور، استخدم الصورة الأولى
     if (product.images && Array.isArray(product.images) && product.images.length > 0) {
       return product.images[0];
     }
-    // إذا كان هناك صورة واحدة
     if (product.image) {
       return product.image;
     }
-    // صورة افتراضية إذا لم توجد صور
     return 'https://placehold.co/400x600?text=No+Image';
   }
 
-  // Retry loading if there was an error
   retryLoading(): void {
     this.loadCartItems();
   }
