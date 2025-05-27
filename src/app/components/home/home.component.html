@@ -11,22 +11,23 @@
         @for(product of products; track $index){
 
         <div class="card h-100 rounded-5 me-4 h-50" style="border: 1px solid #82C341; width: 23%;">
-            <div class="position-relative mt-3"> <img [src]="product.thumbnail" class="card-img-top rounded-4 mt-2"
-                    alt="Product 2">
+            <div class="position-relative mt-3"> <img [src]="product.images" class="card-img-top rounded-4 mt-2 "
+                    style="height: 380px; width: 100%;" alt="Product 2">
 
-                <span [ngStyle]="{'background-color': (product.discountPercentage/100) >0.50 ? 'brown'  :  
-                                                      (product.discountPercentage/100) >0.10 ? 'orange':
+
+                <span [ngStyle]="{'background-color': (product.stock) >50 ? 'brown'  :  
+                                                      (product.stock) >10 ? 'orange':
                                                       'green'  }"
-                    class="badge position-absolute top-0 start-0 mt-4 ms-3 w-25">{{product.discountPercentage/100|percent}}
+                    class="badge position-absolute top-0 start-0 mt-4 ms-3 w-25">{{product.stock}}
                 </span>
             </div>
             <div class="card-body">
-                <h5 class="card-title fw-bolder">{{product.title.slice(0,20)}}..</h5>
+                <h5 class="card-title fw-bolder">{{product.name.slice(0,20)}}..</h5>
                 <span class="h5 mb-0 fw-semibold " style="color: rgb(56, 56, 56);">{{product.price |currency}}</span>
                 <p class="card-text"></p>
                 <div class="d-flex justify-content-between align-items-center">
-                    <button class="btn btn-outline-success w-75 "><fa-icon
-                            [icon]="faCartShopping" class="fs-5 pe-2"></fa-icon>Add to Cart</button>
+                    <button class="btn btn-outline-success w-75 "><fa-icon [icon]="faCartShopping"
+                            class="fs-5 pe-2"></fa-icon>Add to Cart</button>
                     <fa-icon [icon]="faHeart" class="fs-4 text-success" style="cursor: pointer;"></fa-icon>
                 </div>
             </div>
@@ -48,7 +49,8 @@
         <div class="main-counter">
             <h6 class="fw-semibold">DEAL OF THE WEEK</h6>
             <h2 class="fw-bolder">LAST COLLECTION</h2>
-            <button style="font-weight: 500; cursor: pointer; text-decoration: underline; " routerLink="/shop">SHOP NOW</button>
+            <button style="font-weight: 500; cursor: pointer; text-decoration: underline; " routerLink="/shop">SHOP
+                NOW</button>
             <div class="timer">
                 <div class="days">
                     <p> 09</p>

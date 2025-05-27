@@ -7,8 +7,9 @@ import { ProductsService } from '../../services/products.service';
 import { CurrencyPipe, NgStyle, PercentPipe } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
-import { faHome} from '@fortawesome/free-solid-svg-icons';
+import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
+import { ourProducts } from '../../interface/ourProducts';
 
 @Component({
   selector: 'app-home',
@@ -17,16 +18,18 @@ import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-    faHeart = faHeart;
-    faHome = faHome;
-    faCartShopping = faCartShopping;
+  faHeart = faHeart;
+  faHome = faHome;
+  faCartShopping = faCartShopping;
 
-  products: Products[] = [];
+  products: ourProducts[] = [];
 
   constructor(private _productsService: ProductsService) {
     this._productsService.sendProducts().subscribe({
       next: (data) => {
-        this.products = data.products;
+        console.log(data);
+
+        this.products = data.slice(0, 4);
       }
     })
   }
