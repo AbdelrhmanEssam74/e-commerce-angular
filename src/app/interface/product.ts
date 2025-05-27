@@ -1,4 +1,3 @@
-// app/interface/product.ts
 export interface Product {
   id: number;
   name: string;
@@ -11,7 +10,7 @@ export interface Product {
   total_reviews: number;
   created_at: string;
   updated_at: string;
-  image?: string; // للتوافق مع الكود الحالي
-  images?: string[]; // المصفوفة الجديدة القادمة من API
+  image?: string; 
+  images?: string[];
   originalPrice?: string;
 }

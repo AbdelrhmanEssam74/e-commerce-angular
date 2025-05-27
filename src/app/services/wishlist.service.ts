@@ -20,7 +20,6 @@ export class WishlistService {
       switchMap(response => {
         const items = response.data;
         
-        // Handle empty wishlist case
         if (!items || items.length === 0) {
           return of([]);
         }
@@ -52,7 +51,6 @@ export class WishlistService {
     return this.http.delete(`${this.apiUrl}/delete/${itemId}`);
   }
 
-  // Check if product is in wishlist
   isInWishlist(productId: number): Observable<boolean> {
     return this.getWishlistItems(1).pipe(
       map(items => items.some(item => item.product_id === productId))

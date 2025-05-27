@@ -46,11 +46,9 @@ export class WishlistComponent implements OnInit {
     this.wishlistService.removeFromWishlist(itemId).subscribe({
       next: () => {
         this.wishlistItems = this.wishlistItems.filter(item => item.id !== itemId);
-        // Optional: Show success message
       },
       error: (err) => {
         console.error('Error removing from wishlist:', err);
-        // Optional: Show error message to user
       }
     });
   }
@@ -58,13 +56,10 @@ export class WishlistComponent implements OnInit {
   addToCart(item: WishlistItem): void {
     this.cartService.addToCart(item.product.id).subscribe({
       next: () => {
-        // Remove from wishlist after successfully adding to cart
         this.removeFromWishlist(item.id);
-        // Optional: Show success message
       },
       error: (err) => {
         console.error('Error adding to cart:', err);
-        // Optional: Show error message to user
       }
     });
   }
@@ -87,27 +82,21 @@ export class WishlistComponent implements OnInit {
     return Array(5 - Math.floor(numericRating)).fill(0);
   }
 
-  // Format price display
   formatPrice(price: string | number): string {
     const numPrice = typeof price === 'string' ? parseFloat(price) : price;
     return numPrice.toFixed(2);
   }
 
-  // Get product image - handles both images array and single image
   getProductImage(product: any): string {
-    // إذا كان هناك مصفوفة صور، استخدم الصورة الأولى
     if (product.images && Array.isArray(product.images) && product.images.length > 0) {
       return product.images[0];
     }
-    // إذا كان هناك صورة واحدة
     if (product.image) {
       return product.image;
     }
-    // صورة افتراضية إذا لم توجد صور
     return 'https://placehold.co/400x600?text=No+Image';
   }
 
-  // Retry loading if there was an error
   retryLoading(): void {
     this.loadWishlistItems();
   }

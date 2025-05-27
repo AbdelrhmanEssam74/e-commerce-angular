@@ -19,7 +19,6 @@ export class CartService {
   getCartItems(): Observable<CartItem[]> {
     return this.http.get<any[]>(`${this.apiUrl}/${this.userId}`).pipe(
       switchMap(items => {
-        // Handle empty cart case
         if (!items || items.length === 0) {
           return of([]);
         }
@@ -58,7 +57,6 @@ export class CartService {
     });
   }
 
-  // Helper method to get cart count
   getCartCount(): Observable<number> {
     return this.getCartItems().pipe(
       map(items => items.reduce((sum, item) => sum + item.quantity, 0))
