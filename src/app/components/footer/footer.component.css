@@ -6,3 +6,7 @@ li {
     font-weight: 600;
     color: rgb(106, 197, 111) !important;
 }
+
+.navlink {
+    color: beige;
+}

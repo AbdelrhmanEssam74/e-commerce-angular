@@ -12,3 +12,8 @@
 .bg-body-tertiary {
     --bs-bg-opacity: 0;
 }
+
+.nav-li,
+.icon {
+    color: beige;
+}
