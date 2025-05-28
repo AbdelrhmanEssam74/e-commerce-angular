@@ -1,0 +1,136 @@
+<!-- Hero Section -->
+<div class="container mt-4 main-section">
+  <div class="row align-items-center justify-content-center">
+    <div class="col-lg-6 col-md-12 p-5 text-center text-lg-start">
+      <h1 class="fw-bold display-4 mb-4">CHECKOUT</h1>
+      <p class="lead mb-4">
+        Review Your Cart – Your Trusted Source for Premium Scrubs, Lab Coats & Medical Supplies
+      </p>
+    </div>
+    <div class="col-lg-6 col-md-12 text-center">
+      <div class="image-container">
+        <img src="./assets/images/checkout.png" alt="Checkout Image" class="img-fluid">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Billing Details Label -->
+<section class="container billing-details mt-5">
+  <p class="fs-3 p-2">Billing details</p>
+</section>
+
+<!-- Checkout Section -->
+<div class="container my-5">
+  <div class="row">
+    <!-- Billing & Shipping Column -->
+    <div class="col-lg-7">
+      <!-- Saved Address Selection -->
+      <div class="mb-5">
+        <h5 class="mb-3">Shipping Address</h5>
+          <app-address-list></app-address-list>
+        <!-- add new address-->
+        <button class="btn btn-outline-secondary btn-sm mt-3" type="button"
+                data-bs-toggle="collapse" data-bs-target="#newAddressCollapse">
+          + Add new address
+        </button>
+        <div class="collapse mt-3" id="newAddressCollapse">
+          <div class="card card-body">
+            <div class="row g-3">
+              <div class="col-12">
+                <label class="form-label" for="newFullName">Full name *</label>
+                <input class="form-control" id="newFullName" required>
+              </div>
+              <div class="col-12">
+                <label class="form-label" for="newStreet">Street address *</label>
+                <input class="form-control" id="newStreet" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="newCity">City *</label>
+                <input class="form-control" id="newCity" required>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label" for="newState">State *</label>
+                <input class="form-control" id="newState" required>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label" for="newZip">ZIP *</label>
+                <input class="form-control" id="newZip" required>
+              </div>
+              <div class="col-12">
+                <label class="form-label" for="newPhone">Phone *</label>
+                <input class="form-control" id="newPhone" required>
+              </div>
+              <div class="col-12 text-end">
+                <button class="btn btn-dark btn-sm">Save address</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Shipping Options -->
+      <div class="mt-4">
+        <h5 class="mb-3">Shipping Method</h5>
+        <div class="list-group">
+          <label class="list-group-item d-flex justify-content-between align-items-center">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="shippingOption" id="shippingStandard" value="standard" checked>
+              <label class="form-check-label ms-2" for="shippingStandard">
+                Standard Shipping (3–5 days)
+              </label>
+            </div>
+            <span>$0.00</span>
+          </label>
+          <label class="list-group-item d-flex justify-content-between align-items-center">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="shippingOption" id="shippingExpress" value="express">
+              <label class="form-check-label ms-2" for="shippingExpress">
+                Express Shipping (1–2 days)
+              </label>
+            </div>
+            <span>$7.99</span>
+          </label>
+          <label class="list-group-item d-flex justify-content-between align-items-center">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="shippingOption" id="shippingNextDay" value="nextday">
+              <label class="form-check-label ms-2" for="shippingNextDay">
+                Next-Day Delivery
+              </label>
+            </div>
+            <span>$19.99</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order Summary Column -->
+    <div class="col-lg-5 mt-5 mt-lg-0">
+      <div class="bg-light p-3 rounded">
+        <h5 class="mb-3">Product</h5>
+        <div class="d-flex justify-content-between"><span>Pro-Active Male Lab coat ×1</span><span>$50.00</span></div>
+        <div class="d-flex justify-content-between"><span>Cosmetic Containers ×1</span><span>$50.00</span></div>
+        <div class="d-flex justify-content-between"><span>Banded crossover top ×1</span><span>$50.00</span></div>
+        <hr>
+        <div class="d-flex justify-content-between fw-bold"><span>Subtotal</span><span>$150.00</span></div>
+        <div class="d-flex justify-content-between"><span>Shipping</span><span>FREE</span></div>
+        <div class="d-flex justify-content-between fw-bold mt-2"><span>Total</span><span class="text-muted">$150.00</span></div>
+        <hr>
+        <h5 class="mt-4">Payments Method</h5>
+        <div class="form-check mb-2">
+          <input class="form-check-input" type="radio" name="paymentMethod" id="bank" checked>
+          <label class="form-check-label" for="bank">Direct bank transfer</label>
+          <small class="text-muted d-block">Make your payment directly into our bank account. Please use your Order ID as the payment reference.</small>
+        </div>
+        <div class="form-check mb-2">
+          <input class="form-check-input" type="radio" name="paymentMethod" id="check">
+          <label class="form-check-label" for="check">Check payments</label>
+        </div>
+        <div class="form-check mb-3">
+          <input class="form-check-input" type="radio" name="paymentMethod" id="cod">
+          <label class="form-check-label" for="cod">Cash On Delivery</label>
+        </div>
+        <button class="btn btn-dark w-100">PLACE ORDER</button>
+      </div>
+    </div>
+  </div>
+</div>

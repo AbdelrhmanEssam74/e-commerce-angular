@@ -1,7 +1,47 @@
-<!-- ********************************************************* -->
-<!-- start navbar component -->
-<!-- ********************************************************* -->
 
+
+<!-- <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm "> -->
+
+
+
+<!-- <div class="container bg-dark ">
+    <a class="navbar-brand fw-bold" href="/">
+      <img src="assets/logo.png" class="w-50" alt="logo" />
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+      aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" routerLinkActive="active-link" routerLink="/home">Home</a></li>
+        <li class="nav-item"><a class="nav-link" routerLinkActive="active-link" routerLink="/login">Shop</a></li>
+        <li class="nav-item"><a class="nav-link" routerLinkActive="active-link" routerLink="/register">Cart</a></li>
+      </ul>
+      <ul class="navbar-nav d-flex flex-row align-items-center gap-1">
+        <li class="nav-item">
+          <a class="nav-link position-relative fs-3" routerLink="/wishlist"><i class="fa-solid fa-magnifying-glass"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link position-relative fs-3" routerLink="/wishlist"><i class="fa-regular fa-heart"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link position-relative" routerLink="/cart">
+            <i class="fa-solid fa-bag-shopping fs-3"></i>
+            <span class="position-absolute top-2 start-100 translate-middle badge rounded-pill bg-danger">
+              0
+            </span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div> -->
+<!-- </nav> -->
+<!-- <div class="container-fluid rounded-3"> -->
 <nav class="navbar navbar-expand-lg bg-body-tertiary m-2 ">
   <div class="container-fluid bg-success navstyle rounded-4 p-5" style="height: 80px;">
     <button data-mdb-collapse-init class="navbar-toggler" type="button" data-mdb-target="#navbarSupportedContent"
@@ -9,60 +49,42 @@
       <i class="fas fa-bars"></i>
     </button>
 
-
-    <!-- //////////////// pages routes ///////////////////// -->
-
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <a class="navbar-brand mt-2 mt-lg-0" href="#">
         <img src="assets/logo.png" class="w-50" alt="logo" /> </a>
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item "><a class="nav-link fs-5 nav-li" routerLinkActive="active-link" routerLink="/home">Home</a>
-        </li>
-        <li class="nav-item "><a class="nav-link fs-5 nav-li" routerLinkActive="active-link" routerLink="/shop">Shop</a>
-        </li>
-        <li class="nav-item "><a class="nav-link fs-5 nav-li" routerLinkActive="active-link" routerLink="/cart">Cart</a>
-        </li>
+        <li class="nav-item"><a class="nav-link fs-5" routerLinkActive="active-link" routerLink="/home"
+            style="color: beige;">Home</a></li>
+        <li class="nav-item"><a class="nav-link fs-5" routerLinkActive="active-link" routerLink="/shop"
+            style="color: beige;">Shop</a></li>
+        <li class="nav-item"><a class="nav-link fs-5" routerLinkActive="active-link" routerLink="/cart"
+            style="color: beige;">Cart</a></li>
       </ul>
     </div>
 
-
-    <!-- ////////////////icons///////////////////// -->
-
-    <div class="d-flex align-items-center">
+    <div class="d-flex align-items-center" style="color: beige;">
       <ul class="navbar-nav d-flex flex-row align-items-center gap-1">
-
         <li class="nav-item">
-          <a class="nav-link position-relative fs-3 icon" routerLink="/shop">
-            <i class="fa-solid fa-magnifying-glass"></i>
+          <a class="nav-link position-relative fs-3" routerLink="/shop"><i class="fa-solid fa-magnifying-glass"
+              style="color: beige;"></i>
           </a>
         </li>
-
-
-
         <li class="nav-item">
-          <a class="nav-link position-relative fs-3 icon" routerLink="/wishlist">
-            <i class="fa-regular fa-heart"></i>
+          <a class="nav-link position-relative fs-3" routerLink="/wishlist"><i class="fa-regular fa-heart"
+              style="color: beige;"></i>
           </a>
         </li>
-
-
         <li class="nav-item">
           <a class="nav-link position-relative" routerLink="/cart">
-            <i class="fa-solid fa-bag-shopping fs-3 icon"></i>
-            <span class="position-absolute top-2 start-100 translate-middle badge rounded-5 bg-dark">
+            <i class="fa-solid fa-bag-shopping fs-3" style="color: beige;"></i>
+            <span class="position-absolute top-2 start-100 translate-middle badge rounded-pill bg-danger">
               0
             </span>
           </a>
         </li>
-
-
       </ul>
-
-
 
     </div>
   </div>
 </nav>
-<!-- ********************************************************* -->
-<!-- end navbar component -->
-<!-- ********************************************************* -->
+<!-- </div> -->

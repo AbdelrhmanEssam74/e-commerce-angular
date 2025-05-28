@@ -15,4 +15,7 @@ import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 
 
 export class NavbarComponent {
+  // ngAfterViewInit(): void {
+  //   initMDB({ Dropdown, Collapse });
+  // }
 }

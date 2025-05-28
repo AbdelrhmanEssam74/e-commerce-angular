@@ -7,3 +7,8 @@
 body {
   font-family: 'Poppins', sans-serif;
 }
+
+.active-link {
+  font-weight: 700 !important;
+  color: black !important;
+}
