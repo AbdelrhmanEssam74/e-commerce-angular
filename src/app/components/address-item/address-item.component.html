@@ -1,0 +1,16 @@
+<label class="list-group-item list-group-item-action  d-flex">
+  @if (address.shipping_times >= 3) {
+    <input class="form-check-input me-3" type="radio" name="savedAddress" data-id="{{address.id}}}" value="addr-1"
+           checked>
+  } @else {
+    <input class="form-check-input me-3" type="radio" name="savedAddress" data-id="{{address.id}}}" value="addr-1">
+  }
+  <div>
+    {{ address.street }},  {{ address.city }},  {{ address.postal_code }}
+  </div>
+  @if (address.shipping_times >= 3) {
+    <span class="badge bg-secondary ms-auto align-self-start">
+      Default
+    </span>
+  }
+</label>

@@ -1,0 +1,140 @@
+<div class="container-fluid">
+  <!-- Cart Content -->
+  <div class="cart-container p-4">
+    <h2 class="cart-title mb-4">Your Cart</h2>
+    
+    <!-- Loading State -->
+    @if (isLoading) {
+      <div class="loading-container">
+        <div class="row">
+          <!-- Loading Cards for Products -->
+          <div class="col-md-8">
+            @for (skeleton of [1,2,3]; track $index) {
+              <div class="skeleton-card d-flex mb-4">
+                <div class="skeleton-image"></div>
+                <div class="skeleton-details flex-grow-1 p-3">
+                  <div class="skeleton-line title"></div>
+                  <div class="skeleton-line rating"></div>
+                  <div class="skeleton-line description"></div>
+                  <div class="skeleton-line description short"></div>
+                  <div class="skeleton-line price"></div>
+                  <div class="skeleton-controls"></div>
+                </div>
+              </div>
+            }
+          </div>
+          <!-- Loading Summary -->
+          <div class="col-md-4">
+            <div class="skeleton-summary p-4">
+              <div class="skeleton-line title mb-4"></div>
+              <div class="skeleton-line mb-3"></div>
+              <div class="skeleton-line mb-3"></div>
+              <div class="skeleton-line mb-3"></div>
+              <div class="skeleton-button"></div>
+              <div class="skeleton-button mt-3"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    } @else if (error) {
+      <!-- Error State -->
+      <div class="error-state text-center py-5">
+        <div class="error-icon mb-3">
+          <i class="fas fa-exclamation-triangle text-warning" style="font-size: 3rem;"></i>
+        </div>
+        <h4 class="error-title mb-3">{{ error }}</h4>
+        <button class="btn btn-primary" (click)="loadCartItems()">
+          <i class="fas fa-redo me-2"></i>Try Again
+        </button>
+      </div>
+    } @else if (cartItems.length > 0) {
+      <div class="row">
+        <!-- Products List -->
+        <div class="col-md-8">
+          @for (item of cartItems; track item.id) {
+            <div class="product-card d-flex mb-4">
+              <div class="product-image" (click)="goToProductDetails(item.product.id)">
+                <img [src]="getProductImage(item.product)" [alt]="item.product.name" class="img-fluid">
+              </div>
+              <div class="product-details flex-grow-1 p-3">
+                <div class="d-flex justify-content-between align-items-start">
+                  <h5 class="product-name" (click)="goToProductDetails(item.product.id)">{{ item.product.name }}</h5>
+                  <a class="remove-btn" (click)="removeFromCart(item.id)">
+                    <i class="fas fa-times text-danger"></i>
+                  </a>
+                </div>
+                <div class="rating mb-2">
+                  @for (star of getStars(item.product.average_rating); track $index) {
+                    <i class="fas fa-star"></i>
+                  }
+                  @for (star of getEmptyStars(item.product.average_rating); track $index) {
+                    <i class="far fa-star"></i>
+                  }
+                  <span class="rating-count ms-2">{{ item.product.total_reviews }} reviews</span>
+                </div>
+                <p class="product-description">{{ item.product.description }}</p>
+                <div class="product-price">
+                  <span class="current-price">${{ formatPrice(item.product.price) }}</span>
+                  @if (item.product.originalPrice) {
+                    <span class="original-price">${{ formatPrice(item.product.originalPrice) }}</span>
+                  }
+                </div>
+                <div class="quantity-controls d-flex align-items-center">
+                  <button class="btn btn-outline-secondary btn-sm" (click)="decreaseQuantity(item)">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <span class="mx-3">{{ item.quantity }}</span>
+                  <button class="btn btn-outline-secondary btn-sm" (click)="increaseQuantity(item)">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- Order Summary -->
+        <div class="col-md-4">
+          <div class="summary-card p-4">
+            <h5 class="summary-title mb-4">Order Summary</h5>
+            <div class="d-flex justify-content-between mb-2">
+              <span>Subtotal ({{ getTotalItems() }} items)</span>
+              <span>${{ formatPrice(getSubtotal()) }}</span>
+            </div>
+            <div class="d-flex justify-content-between mb-2">
+              <span>Shipping</span>
+              <span>${{ formatPrice(shippingCost) }}</span>
+            </div>
+            <div class="d-flex justify-content-between mb-3">
+              <span>Tax</span>
+              <span>${{ formatPrice(getTax()) }}</span>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between mb-4">
+              <span class="fw-bold">Total</span>
+              <span class="fw-bold">${{ formatPrice(getTotal()) }}</span>
+            </div>
+            <button class="btn btn-primary w-100 py-2" (click)="checkout()">
+              Proceed to Checkout
+            </button>
+            <button class="btn btn-outline-secondary w-100 mt-3 py-2" (click)="continueShopping()">
+              Continue Shopping
+            </button>
+          </div>
+        </div>
+      </div>
+    } @else {
+      <!-- Empty Cart State -->
+      <div class="empty-state text-center">
+        <div class="empty-icon">
+          <i class="fas fa-shopping-cart"></i>
+        </div>
+        <h4 class="empty-title">Your cart is empty</h4>
+        <p class="empty-subtitle mb-4">Looks like you haven't added anything to your cart yet</p>
+        <button class="btn btn-primary btn-back" (click)="goToHome()">
+          <i class="fas fa-arrow-left me-2"></i>Continue Shopping
+        </button>
+      </div>
+    }
+  </div>
+</div>
