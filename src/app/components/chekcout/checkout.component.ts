@@ -6,9 +6,9 @@ import {AddressListComponent} from '../address-list/address-list.component';
   imports: [
     AddressListComponent
   ],
-  templateUrl: './chekcout.component.html',
-  styleUrl: './chekcout.component.css'
+  templateUrl: './checkout.component.html',
+  styleUrl: './checkout.component.css'
 })
-export class ChekcoutComponent {
+export class CheckoutComponent {
 
 }
