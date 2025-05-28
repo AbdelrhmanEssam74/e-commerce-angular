@@ -1,0 +1,70 @@
+<div class="container py-5 d-flex justify-content-center align-items-center min-vh-100">
+  <div class="card shadow rounded-4 p-4" style="max-width: 480px; width: 100%;">
+    <h3 class="fw-bold text-center mb-4">Register</h3>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" id="name" class="form-control" formControlName="name"
+               [ngClass]="{ 'is-invalid': f['name'].touched && f['name'].invalid }" />
+        @if (f['name'].touched && f['name'].errors?.['required']) {
+          <div class="invalid-feedback" >Name is required</div>
+        }
+        @if (f['name'].errors?.['minlength']) {
+          <div class="invalid-feedback" >Name must be at least 3 characters</div>
+        }
+      </div>
+
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" id="email" class="form-control" formControlName="email"
+               [ngClass]="{ 'is-invalid': f['email'].touched && f['email'].invalid }" />
+        @if (f['email'].errors?.['required']) {
+          <div class="invalid-feedback" >Email is required</div>
+        }
+        @if (f['email'].errors?.['email']) {
+          <div class="invalid-feedback" >Enter a valid email</div>
+        }
+      </div>
+
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" id="password" class="form-control" formControlName="password"
+               [ngClass]="{ 'is-invalid': f['password'].touched && f['password'].invalid }" />
+        @if (f['password'].errors?.['required']) {
+          <div class="invalid-feedback" >Password is required</div>
+        }
+        @if (f['password'].errors?.['minlength']) {
+          <div class="invalid-feedback" >Min 6 characters</div>
+        }
+      </div>
+
+      <div class="mb-3">
+        <label for="phone" class="form-label">Phone</label>
+        <input type="text" id="phone" class="form-control" formControlName="phone"
+               [ngClass]="{ 'is-invalid': f['phone'].touched && f['phone'].invalid }" />
+        @if ( f['phone'].errors?.['required']) {
+          <div class="invalid-feedback" >Phone is required</div>
+
+        }
+        @if (f['phone'].errors?.['minlength']) {
+          <div class="invalid-feedback" >Phone must be at least 10 digits</div>
+        }
+        @if (f['phone'].errors?.['pattern']) {
+          <div class="invalid-feedback" >Enter a valid phone number</div>
+        }
+      </div>
+      @if (error) {
+        <div  class="alert alert-danger">{{ error }}</div>
+      }
+      @if (success) {
+        <div class="alert alert-success">{{ success }}</div>
+
+      }
+      <button type="submit" class="btn btn-primary w-100" [disabled]="loading">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+        Register
+      </button>
+    </form>
+  </div>
+</div>
