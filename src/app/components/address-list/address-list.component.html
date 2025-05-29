@@ -1,7 +1,11 @@
 <div class="list-group">
-  @if(addresses.length > 0){
-    @for(address of addresses; track address){
-      <app-address-item [address]="address" ></app-address-item>
+  @if (addresses.length > 0) {
+    @for (address of addresses; track address) {
+      <app-address-item (click)="selectAddress(address.id)" [address]="address"></app-address-item>
     }
+  } @else {
+    <div class="list-group-item text-center">
+      <p class="mb-0">No addresses available. Please add an address.</p>
+    </div>
   }
 </div>
