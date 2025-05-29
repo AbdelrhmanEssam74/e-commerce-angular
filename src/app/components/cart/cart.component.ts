@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CartService } from '../../services/cart.service';
 import { Router } from '@angular/router';
 import { CartItem } from '../../interface/cart-item';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-cart',
@@ -16,8 +18,9 @@ export class CartComponent implements OnInit {
 
   constructor(
     private cartService: CartService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private http: HttpClient
+  ) { }
 
   ngOnInit(): void {
     this.loadCartItems();
@@ -26,7 +29,7 @@ export class CartComponent implements OnInit {
   loadCartItems(): void {
     this.isLoading = true;
     this.error = null;
-    
+
     this.cartService.getCartItems().subscribe({
       next: (items) => {
         this.cartItems = items;
@@ -78,7 +81,7 @@ export class CartComponent implements OnInit {
   }
 
   getSubtotal(): number {
-    const subtotal = this.cartItems.reduce((sum, item) => 
+    const subtotal = this.cartItems.reduce((sum, item) =>
       sum + (parseFloat(item.product.price) * item.quantity), 0);
     return Math.round(subtotal * 100) / 100;
   }
@@ -149,5 +152,10 @@ export class CartComponent implements OnInit {
   // Retry loading if there was an error
   retryLoading(): void {
     this.loadCartItems();
+  }
+
+
+  sendProducts(): Observable<any> {
+    return this.http.get('http://localhost:3000/api/products')
   }
 }

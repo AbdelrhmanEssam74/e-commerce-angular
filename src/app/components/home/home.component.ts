@@ -10,6 +10,8 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import { ourProducts } from '../../interface/ourProducts';
+import { CartService } from '../../services/cart.service';
+import { CartItem } from '../../interface/cart-item';
 
 @Component({
   selector: 'app-home',
@@ -23,14 +25,49 @@ export class HomeComponent {
   faCartShopping = faCartShopping;
 
   products: ourProducts[] = [];
+  cartItem: CartItem[] = [];
+  // constructor(private _productsService: ProductsService) {
+  //   this._productsService.sendProducts().subscribe({
+  //     next: (data) => {
+  //       this.products = data.slice(0, 4);
+  //     }
+  //   })
+  // }
 
-  constructor(private _productsService: ProductsService) {
-    this._productsService.sendProducts().subscribe({
+
+  constructor(private cartService: CartService) {
+    this.cartService.sendProducts().subscribe({
       next: (data) => {
-        console.log(data);
-
         this.products = data.slice(0, 4);
       }
     })
+  }
+
+
+  // addToCartFromHome(productId: number) {
+  //   this.cartService.addToCart(productId).subscribe({
+  //       next: (response) => {
+  //         console.log('Product added to cart successfully:', response);
+  //         alert('Product added to cart successfully!');
+  //       },
+  //       error: (err) => {
+  //         console.error('Error adding product to cart:', err);
+  //         alert('Failed to add product to cart. Please try again.');
+  //  }
+  // });
+  // }
+
+
+    addToCart(productId: number): void {
+      this.cartService.addToCart(productId).subscribe({
+        next: (response) => {
+          console.log('Product added to cart successfully:', response);
+          alert('Product added to cart successfully!');
+        },
+        error: (err) => {
+          console.error('Error adding product to cart:', err);
+          alert('Failed to add product to cart. Please try again.');
+   }
+  });
   }
 }

@@ -28,4 +28,8 @@ export class ProductsService {
   filterProducts(params: any): Observable<Product[]> {
     return this.http.get<Product[]>(`${this.apiUrl}/products/filter`, { params });
   }
+
+  sendProducts(): Observable<any> {
+    return this.http.get('http://localhost:3000/api/products')
+  }
 }

@@ -22,15 +22,38 @@
         </li>
         <li class="nav-item "><a class="nav-link fs-5 nav-li" routerLinkActive="active-link" routerLink="/cart">Cart</a>
         </li>
+
       </ul>
     </div>
 
 
     <!-- ////////////////icons///////////////////// -->
 
+
+
     <div class="d-flex align-items-center">
       <ul class="navbar-nav d-flex flex-row align-items-center gap-1">
 
+
+        @if(!isSigned){
+
+        <li class="nav-item pe-2"><a class="nav-link fs-5 nav-li" routerLinkActive="active-link" routerLink="/login"
+            style="background-color: cadetblue; padding:5 10px; border-radius: 10px; width: 120px; text-align: center;">Login</a>
+        </li>
+
+        <li class="nav-item pe-2"><a class="nav-link fs-5 nav-li" routerLinkActive="active-link" routerLink="/register"
+            style="border: 1.5px solid beige; padding:5 10px; border-radius: 10px; width: 120px; text-align: center; ">Register</a>
+        </li>
+        }@else{
+        <li class="nav-item pe-2 "><a class="nav-link fs-5 nav-li bg-danger"
+            style="border: 1.5px solid beige; padding:5 10px; border-radius: 10px; width: 120px; text-align: center; cursor: pointer; "
+            (click)="logout()">Logout</a>
+        </li>
+        }
+
+
+        <li class="nav-item "><a class="nav-link fs-5 nav-li"> </a>
+        </li>
         <li class="nav-item">
           <a class="nav-link position-relative fs-3 icon" routerLink="/shop">
             <i class="fa-solid fa-magnifying-glass"></i>
@@ -50,7 +73,7 @@
           <a class="nav-link position-relative" routerLink="/cart">
             <i class="fa-solid fa-bag-shopping fs-3 icon"></i>
             <span class="position-absolute top-2 start-100 translate-middle badge rounded-5 bg-dark">
-              0
+              {{cartCount}}
             </span>
           </a>
         </li>

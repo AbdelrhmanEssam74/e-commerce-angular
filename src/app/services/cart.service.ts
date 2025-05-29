@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, forkJoin, map, switchMap, of } from 'rxjs';
+import { Observable, forkJoin, map, switchMap, of, BehaviorSubject } from 'rxjs';
 import { CartItem } from '../interface/cart-item';
 import { ProductsService } from './products.service';
+import { ourProducts } from '../interface/ourProducts';
 
 @Injectable({
   providedIn: 'root'
@@ -23,10 +24,10 @@ export class CartService {
           return of([]);
         }
 
-        const productObservables = items.map(item => 
+        const productObservables = items.map(item =>
           this.productsService.getProductById(item.product_id)
         );
-        
+
         return forkJoin(productObservables).pipe(
           map(products => {
             return items.map((item, index) => ({
@@ -40,6 +41,8 @@ export class CartService {
   }
 
   addToCart(productId: number, quantity: number = 1): Observable<any> {
+
+
     return this.http.post(`${this.apiUrl}/add`, {
       user_id: this.userId,
       product_id: productId,
@@ -62,5 +65,10 @@ export class CartService {
     return this.getCartItems().pipe(
       map(items => items.reduce((sum, item) => sum + item.quantity, 0))
     );
+  }
+
+
+  sendProducts(): Observable<any> {
+    return this.http.get('http://localhost:3000/api/products')
   }
 }
