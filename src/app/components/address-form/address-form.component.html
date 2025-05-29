@@ -1,1 +1,58 @@
-<p>address-form works!</p>
+<!-- Add new address -->
+<button class="btn btn-outline-secondary btn-sm mt-3" type="button"
+        data-bs-toggle="collapse" data-bs-target="#newAddressCollapse">
+  + Add new address
+</button>
+
+<div class="collapse mt-3" id="newAddressCollapse">
+  <div class="card card-body">
+    <form [formGroup]="addressForm" (ngSubmit)="onSubmit()">
+      <div class="row g-3">
+        <div class="col-12">
+          <label class="form-label" for="newFullName">Full name *</label>
+          <input class="form-control" id="newFullName" formControlName="full_name"/>
+          @if (submitted && f['full_name'].invalid) {
+            <div class="text-danger small">Full name is required</div>
+          }
+        </div>
+
+        <div class="col-12">
+          <label class="form-label" for="newStreet">Street address *</label>
+          <input class="form-control" id="newStreet" formControlName="street"/>
+          @if (submitted && f['street'].invalid) {
+            <div class="text-danger small">Street is required</div>
+          }
+        </div>
+
+        <div class="col-md-8">
+          <label class="form-label" for="newCity">City *</label>
+          <input class="form-control" id="newCity" formControlName="city"/>
+          @if (submitted && f['city'].invalid) {
+            <div class="text-danger small">City is required</div>
+          }
+        </div>
+
+
+        <div class="col-md-4">
+          <label class="form-label" for="newZip">postal code *</label>
+          <input class="form-control" id="newZip" formControlName="postal_code"/>
+          @if (submitted && f['postal_code'].invalid) {
+            <div class="text-danger small">postal code must be a 5-digit number</div>
+          }
+        </div>
+
+        <div class="col-12">
+          <label class="form-label" for="newPhone">Phone *</label>
+          <input class="form-control" id="newPhone" formControlName="phone"/>
+          @if (submitted && f['phone'].invalid) {
+            <div class="text-danger small">Phone must be a 10-digit number</div>
+          }
+        </div>
+
+        <div class="col-12 text-end">
+          <button class="btn btn-dark btn-sm" type="submit">Save address</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
