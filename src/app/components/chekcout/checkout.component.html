@@ -21,116 +21,129 @@
 </section>
 
 <!-- Checkout Section -->
-<div class="container my-5">
-  <div class="row">
-    <!-- Billing & Shipping Column -->
-    <div class="col-lg-7">
-      <!-- Saved Address Selection -->
-      <div class="mb-5">
-        <h5 class="mb-3">Shipping Address</h5>
-          <app-address-list></app-address-list>
-        <!-- add new address-->
-        <button class="btn btn-outline-secondary btn-sm mt-3" type="button"
-                data-bs-toggle="collapse" data-bs-target="#newAddressCollapse">
-          + Add new address
-        </button>
-        <div class="collapse mt-3" id="newAddressCollapse">
-          <div class="card card-body">
-            <div class="row g-3">
-              <div class="col-12">
-                <label class="form-label" for="newFullName">Full name *</label>
-                <input class="form-control" id="newFullName" required>
+@if (!loading) {
+  <div class="container my-5">
+    <div class="row">
+      <!-- Billing & Shipping Column -->
+      <div class="col-lg-7">
+        <div class="mb-5">
+          <h5 class="mb-3">Shipping Address</h5>
+          <div class="list-group">
+            @if (addresses.length > 0) {
+              @for (address of addresses; track address.id) {
+                <label class="list-group-item list-group-item-action d-flex">
+                  <input class="form-check-input me-3" type="radio" name="savedAddress"
+                         [value]="address.id"
+                         [checked]="selectedAddressId === address.id"
+                         (change)="onAddressChange(address.id)">
+                  <div>{{ address.street }}, {{ address.city }}, {{ address.postal_code }}</div>
+                  @if (address.shipping_times >= 3) {
+                    <span class="badge bg-secondary ms-auto align-self-start">Default</span>
+                  }
+                </label>
+              }
+            } @else {
+              <div class="list-group-item text-center">
+                <p class="mb-0">No addresses available. Please add an address.</p>
               </div>
-              <div class="col-12">
-                <label class="form-label" for="newStreet">Street address *</label>
-                <input class="form-control" id="newStreet" required>
-              </div>
-              <div class="col-md-6">
-                <label class="form-label" for="newCity">City *</label>
-                <input class="form-control" id="newCity" required>
-              </div>
-              <div class="col-md-3">
-                <label class="form-label" for="newState">State *</label>
-                <input class="form-control" id="newState" required>
-              </div>
-              <div class="col-md-3">
-                <label class="form-label" for="newZip">ZIP *</label>
-                <input class="form-control" id="newZip" required>
-              </div>
-              <div class="col-12">
-                <label class="form-label" for="newPhone">Phone *</label>
-                <input class="form-control" id="newPhone" required>
-              </div>
-              <div class="col-12 text-end">
-                <button class="btn btn-dark btn-sm">Save address</button>
-              </div>
+            }
+          </div>
+
+          <button class="btn btn-outline-secondary btn-sm mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#newAddressCollapse">
+            + Add new address
+          </button>
+          <div class="collapse mt-3" id="newAddressCollapse">
+            <div class="card card-body">
+              <p>Add new address form here.</p>
             </div>
           </div>
         </div>
-      </div>
-      <!-- Shipping Options -->
-      <div class="mt-4">
-        <h5 class="mb-3">Shipping Method</h5>
-        <div class="list-group">
-          <label class="list-group-item d-flex justify-content-between align-items-center">
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="shippingOption" id="shippingStandard" value="standard" checked>
-              <label class="form-check-label ms-2" for="shippingStandard">
-                Standard Shipping (3–5 days)
-              </label>
-            </div>
-            <span>$0.00</span>
-          </label>
-          <label class="list-group-item d-flex justify-content-between align-items-center">
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="shippingOption" id="shippingExpress" value="express">
-              <label class="form-check-label ms-2" for="shippingExpress">
-                Express Shipping (1–2 days)
-              </label>
-            </div>
-            <span>$7.99</span>
-          </label>
-          <label class="list-group-item d-flex justify-content-between align-items-center">
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="shippingOption" id="shippingNextDay" value="nextday">
-              <label class="form-check-label ms-2" for="shippingNextDay">
-                Next-Day Delivery
-              </label>
-            </div>
-            <span>$19.99</span>
-          </label>
-        </div>
-      </div>
-    </div>
 
-    <!-- Order Summary Column -->
-    <div class="col-lg-5 mt-5 mt-lg-0">
-      <div class="bg-light p-3 rounded">
-        <h5 class="mb-3">Product</h5>
-        <div class="d-flex justify-content-between"><span>Pro-Active Male Lab coat ×1</span><span>$50.00</span></div>
-        <div class="d-flex justify-content-between"><span>Cosmetic Containers ×1</span><span>$50.00</span></div>
-        <div class="d-flex justify-content-between"><span>Banded crossover top ×1</span><span>$50.00</span></div>
-        <hr>
-        <div class="d-flex justify-content-between fw-bold"><span>Subtotal</span><span>$150.00</span></div>
-        <div class="d-flex justify-content-between"><span>Shipping</span><span>FREE</span></div>
-        <div class="d-flex justify-content-between fw-bold mt-2"><span>Total</span><span class="text-muted">$150.00</span></div>
-        <hr>
-        <h5 class="mt-4">Payments Method</h5>
-        <div class="form-check mb-2">
-          <input class="form-check-input" type="radio" name="paymentMethod" id="bank" checked>
-          <label class="form-check-label" for="bank">Direct bank transfer</label>
-          <small class="text-muted d-block">Make your payment directly into our bank account. Please use your Order ID as the payment reference.</small>
+        <!-- Shipping Options -->
+        <div class="mt-4">
+          <h5 class="mb-3">Shipping Method</h5>
+          <div class="list-group">
+            @for (option of shippingOptions; track option.id) {
+              <label class="list-group-item d-flex justify-content-between align-items-center">
+                <div class="form-check">
+                  <input class="form-check-input"
+                         type="radio"
+                         name="shippingOption"
+                         [id]="option.id"
+                         [value]="option.id"
+                         [checked]="selectedShippingId === option.id"
+                         (change)="onShippingChange(option.id)">
+                  <label class="form-check-label ms-2" [for]="option.id">
+                    {{ option.name }} ({{ option.estimated_delivery_days }} days)
+                  </label>
+                </div>
+                <span>{{ option.cost === 0 ? 'FREE' : ('EGP' + option.cost.toFixed(2)) }}</span>
+              </label>
+            }
+          </div>
         </div>
-        <div class="form-check mb-2">
-          <input class="form-check-input" type="radio" name="paymentMethod" id="check">
-          <label class="form-check-label" for="check">Check payments</label>
+      </div>
+
+      <!-- Order Summary Column -->
+      <div class="col-lg-5 mt-5 mt-lg-0">
+        <div class="bg-light p-3 rounded">
+          <h5 class="mb-3">Product</h5>
+          @for (item of fullCart; track item.cartId) {
+            @if (item.product) {
+              <div class="d-flex justify-content-between">
+                <span>{{ item.product.name }} ×{{ item.quantity }}</span>
+                <span>EGP{{ (item.product.price * item.quantity) | number:'1.2-2' }}</span>
+              </div>
+            }
+          }
+
+
+          <hr>
+          <div class="d-flex justify-content-between fw-bold">
+            <span>Subtotal</span>
+            <span>EGP{{ subtotal | number:'1.2-2' }}</span>
+          </div>
+          <div class="d-flex justify-content-between">
+            <span>Shipping</span>
+            <span>{{ shippingCost === 0 ? 'FREE' : ('EGP' + shippingCost.toFixed(2)) }}</span>
+          </div>
+          <div class="d-flex justify-content-between fw-bold mt-2">
+            <span>Total</span>
+            <span class="text-muted">EGP{{ total | number:'1.2-2' }}</span>
+          </div>
+          <hr>
+
+          <!-- Payment Options -->
+          <h5 class="mt-4">Payment Method</h5>
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="radio" name="paymentMethod" id="bank" value="bank"
+                   [checked]="selectedPaymentMethod === 'bank'"
+                   (change)="onPaymentMethodChange('bank')">
+            <label class="form-check-label" for="bank">Direct bank transfer</label>
+            <small class="text-muted d-block">Use Order ID as payment reference.</small>
+          </div>
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="radio" name="paymentMethod" id="check" value="check"
+                   [checked]="selectedPaymentMethod === 'check'"
+                   (change)="onPaymentMethodChange('check')">
+            <label class="form-check-label" for="check">Check payments</label>
+          </div>
+          <div class="form-check mb-3">
+            <input class="form-check-input" type="radio" name="paymentMethod" id="cod" value="cod"
+                   [checked]="selectedPaymentMethod === 'cod'"
+                   (change)="onPaymentMethodChange('cod')">
+            <label class="form-check-label" for="cod">Cash On Delivery</label>
+          </div>
+
+          <button class="btn btn-dark w-100" (click)="placeOrder()">PLACE ORDER</button>
         </div>
-        <div class="form-check mb-3">
-          <input class="form-check-input" type="radio" name="paymentMethod" id="cod">
-          <label class="form-check-label" for="cod">Cash On Delivery</label>
-        </div>
-        <button class="btn btn-dark w-100">PLACE ORDER</button>
       </div>
     </div>
   </div>
-</div>
+} @else {
+  <div class="text-center my-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+}
