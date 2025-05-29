@@ -4,6 +4,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {DecimalPipe} from '@angular/common';
 import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import {AddressFormComponent} from '../address-form/address-form.component';
 
 interface CartItem {
   id: number;
@@ -45,7 +46,8 @@ interface ShippingOption {
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
   imports: [
-    DecimalPipe
+    DecimalPipe,
+    AddressFormComponent
   ],
   styleUrls: ['./checkout.component.css']
 })
